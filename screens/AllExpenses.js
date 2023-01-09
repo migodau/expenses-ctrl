@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import ExpensesOutput from '../components/ExpensesOutput';
+import { ExpensesContext } from '../store/expenses-context';
 
 export function AllExpenses() {
+  const { expenses } = useContext(ExpensesContext);
+  
   return (
     <View style={styles.container}>
-      <ExpensesOutput/>
+      <ExpensesOutput expenses={expenses}/>
     </View>
   );
 }

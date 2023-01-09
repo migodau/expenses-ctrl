@@ -9,43 +9,39 @@ import { RecentExpenses } from './screens/RecentExpenses';
 import { Ionicons } from '@expo/vector-icons';
 import { THEME } from './theme';
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
+import { IconButton } from './components/UI/IconButton';
+import ExpensesContextProvider from './store/expenses-context';
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
 
 const generalHeaderOptions = {
   headerStyle: {
-    backgroundColor: THEME.COLORS.primary500,
+    backgroundColor: THEME.COLORS.primary900,
   },
   headerTintColor: '#fff',
-  headerTitleStyle: {
-    fontFamily: THEME.FONTS.bold,
-  }
+  headerTitleStyle: { fontFamily: THEME.FONTS.bold }
 };
 
 const ExpensesOverview = () => {
-
-  const [fontsLoaded] = useFonts({
-    Roboto_400Regular,
-    Roboto_700Bold
-  });
-  
-  if (!fontsLoaded) {
-    return null;
-  }
-
   return (
   <Tabs.Navigator 
   sceneContainerStyle={{backgroundColor: THEME.COLORS.gray100}}
-  screenOptions={{ 
+  screenOptions={({navigation}) => ({ 
     ...generalHeaderOptions,
     tabBarStyle: {
-      backgroundColor: THEME.COLORS.primary500,
+      backgroundColor: THEME.COLORS.primary900,
     },
     tabBarActiveTintColor: THEME.COLORS.accent500,
-    tabBarInactiveTintColor: THEME.COLORS.primary50,
+    tabBarInactiveTintColor: THEME.COLORS.primary100,
     tabBarShowLabel: false,
-  }}>
+    headerRight: ({tintColor}) => (
+      <IconButton 
+        name="add" size={24} color={tintColor} 
+        onPress={() => navigation.navigate('ManageExpenses')} 
+      />
+    )
+  })}>
     <Tabs.Screen 
       name="RecentExpenses" 
       component={RecentExpenses} 
@@ -66,27 +62,40 @@ const ExpensesOverview = () => {
 }
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Roboto_400Regular,
+    Roboto_700Bold
+  });
+  
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <>
       <StatusBar style='light' />
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ ...generalHeaderOptions }}>
-          <Stack.Screen 
-            name="ExpensesOverview" 
-            component={ExpensesOverview}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen 
-            name="ManageExpenses" 
-            component={ManageExpenses} 
-            options={{
-              title: 'Manage Expenses'
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <ExpensesContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ 
+            ...generalHeaderOptions,
+            }}>
+            <Stack.Screen 
+              name="ExpensesOverview" 
+              component={ExpensesOverview}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen 
+              name="ManageExpenses" 
+              component={ManageExpenses} 
+              options={{
+                title: 'Manage Expenses'
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ExpensesContextProvider>
     </>
   );
 }

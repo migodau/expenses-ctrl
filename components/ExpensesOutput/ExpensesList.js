@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, Pressable } from 'react-native';
 import { THEME } from '../../theme';
-import { AppText } from '../AppText';
+import { AppText } from '../UI/AppText';
 import { ExpenseItem } from './ExpenseItem';
 
 const RenderExpenseItem = ({ item }) => {

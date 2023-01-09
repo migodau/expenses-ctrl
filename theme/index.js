@@ -1,14 +1,23 @@
 export const THEME = {
   COLORS: {
-    primary50: '#bdbedc',
-    primary100: '#3f2d87',
-    primary400: '#14186d',
-    primary500: '#020659',
-    primary900: '#000030',
+    primary100: '#bdbedc',
+    primary200: '#9295c4',
+    primary300: '#686dad',
+    primary400: '#4a4f9d',
+    primary500: '#2b328d',
+    primary600: '#262b84',
+    primary700: '#1d2279',
+    primary800: '#14186d',
+    primary900: '#020659',
 
-    accent100: '#78ffff',
-    accent500: '#29f2f2',
-    accent900: '#00bfbf',
+    primaryA200: '#3f2d87',
+    primaryA700: '#000030',
+
+    accent100: '#a9eae7',
+    accent200: '#76ffff',
+    accent500: '#18ffff',
+    accent700: '#00cbcc',
+    accent900: '#005a53',
 
     gray100: '#f5f5f5',
   },
