@@ -19,7 +19,7 @@ function expenseReducer(state, action) {
       updatedExpenses[index] = { id: updatedExpenses[index].id, ...action.payload.expense }
       return updatedExpenses;
     case 'DELETE':
-      return [ ...state.filter(item => item !== action.payload) ];
+      return state.filter(item => item.id !== action.payload);
     default:
       return state;
   }
@@ -30,7 +30,7 @@ export default function ExpensesContextProvider({ children }) {
     id: '1',
     description: 'a pair of shoes',
     amount: 52.87,
-    date: new Date('2022-12-13'),
+    date: new Date('2023-01-05'),
   },
   {
     id: '2',

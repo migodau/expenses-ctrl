@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   button: {
-    backgroundColor: THEME.COLORS.accent500,
+    backgroundColor: THEME.COLORS.accent200,
     borderRadius: 8,
     padding: 16, 
     alignItems: 'center',

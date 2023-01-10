@@ -1,11 +1,11 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { AppText } from '../components/UI/AppText';
-import { Button } from '../components/UI/Button';
-import { IconButton } from '../components/UI/IconButton';
-import { AppTextInput } from '../components/UI/AppTextInput';
-import { ExpensesContext } from '../store/expenses-context';
-import { THEME } from '../theme';
+import { Button } from '../../components/UI/Button';
+import { IconButton } from '../../components/UI/IconButton';
+import { Input } from '../../components/UI/AppTextInput';
+import { ExpensesContext } from '../../store/expenses-context';
+import { THEME } from '../../theme';
+import { ExpenseForm } from './ExpenseForm';
 
 export function ManageExpenses({ route, navigation }) {
   const {expenses, addExpense, removeExpense, updateExpense} = useContext(ExpensesContext);
@@ -27,10 +27,6 @@ export function ManageExpenses({ route, navigation }) {
     navigation.goBack();
   }
 
-  const handleDescriptionChange = (event) => {
-    setDescription(event.nativeEvent.text);
-  }
-
   const handleDeleteExpense = () => {
     removeExpense(expenseId);
     navigation.goBack();
@@ -44,12 +40,13 @@ export function ManageExpenses({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <AppText>Description</AppText>
-      <AppTextInput value={description} onChange={(handleDescriptionChange)} />
-      <Button onPress={handleConfirmPress}>{isEditing ? 'Update' : 'Add'}</Button>
+      <ExpenseForm />
+      <View style={styles.buttonContainer}>
+        <Button onPress={handleConfirmPress}>{isEditing ? 'Update' : 'Add'}</Button>
+      </View>
       {isEditing && (
         <View style={styles.deleteContainer}>
-          <IconButton name="trash" size={24} color={THEME.COLORS.primary900} onPress={handleDeleteExpense} />
+          <IconButton name="trash" size={24} color={THEME.COLORS.primaryA200} onPress={handleDeleteExpense} />
         </View>
       )}
     </View>
@@ -67,5 +64,8 @@ export const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: THEME.COLORS.primary100,
     alignItems: 'center',
+  },
+  buttonContainer: {
+    paddingVertical: 24,
   }
 });
