@@ -48,7 +48,7 @@ export default function ExpensesContextProvider({ children }) {
   }
 
   function updateExpense(id, expense) {
-    dispatch({type: 'DELETE', payload: { id, expense }});
+    dispatch({type: 'UPDATE', payload: { id, expense }});
   }
 
   const value = {

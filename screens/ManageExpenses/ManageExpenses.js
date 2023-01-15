@@ -1,6 +1,5 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button } from '../../components/UI/Button';
 import { IconButton } from '../../components/UI/IconButton';
 import { Input } from '../../components/UI/AppTextInput';
 import { ExpensesContext } from '../../store/expenses-context';
@@ -13,17 +12,17 @@ export function ManageExpenses({ route, navigation }) {
   const isEditing = !!expenseId;
 
   const expense = isEditing ? expenses.find(item => item.id === expenseId) : null
-  
-  const [description, setDescription] = useState(expense?.description || '');
-  const amount = 10.25;
-  const date = new Date();
 
-  const handleConfirmPress = () => {
+  const handleConfirm = (expenseData) => {
     if (isEditing) {
-      updateExpense(expenseId, { description, amount, date });
+      updateExpense(expenseId, expenseData);
     } else {
-      addExpense({ description, amount, date });
+      addExpense(expenseData);
     }
+    navigation.goBack();
+  }
+
+  const handleCancel = () => {
     navigation.goBack();
   }
 
@@ -40,10 +39,13 @@ export function ManageExpenses({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <ExpenseForm />
-      <View style={styles.buttonContainer}>
-        <Button onPress={handleConfirmPress}>{isEditing ? 'Update' : 'Add'}</Button>
-      </View>
+      <ExpenseForm 
+        submitButtonLabel={isEditing ? 'Update' : 'Add'} 
+        defaultValues={expense}
+        onSubmit={handleConfirm} 
+        onCancel={handleCancel} 
+      />
+      
       {isEditing && (
         <View style={styles.deleteContainer}>
           <IconButton name="trash" size={24} color={THEME.COLORS.primaryA200} onPress={handleDeleteExpense} />
@@ -65,7 +67,4 @@ export const styles = StyleSheet.create({
     borderTopColor: THEME.COLORS.primary100,
     alignItems: 'center',
   },
-  buttonContainer: {
-    paddingVertical: 24,
-  }
 });

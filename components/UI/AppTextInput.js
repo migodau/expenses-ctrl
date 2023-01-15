@@ -3,11 +3,12 @@ import { StyleSheet, View, TextInput } from 'react-native';
 import { THEME } from '../../theme';
 import { AppText } from './AppText';
 
-export function Input({label, style, ...textInputProps}) {
+export function Input({label, error, style, ...textInputProps}) {
   return (
     <View style={[styles.container, style]}>
-      <AppText style={styles.label}>{label}</AppText>
-      <TextInput style={[styles.input, textInputProps?.multiline && styles.inputMultiline ]} {...textInputProps} />
+      <AppText style={[styles.label, error && styles.labelError]}>{label}</AppText>
+      <TextInput style={[styles.input, error && styles.inputError, textInputProps?.multiline && styles.inputMultiline ]} {...textInputProps} />
+      <AppText style={[styles.errorInfo]}>{error}</AppText>
     </View>
   );
 }
@@ -27,6 +28,18 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: THEME.COLORS.primary600,
     fontFamily: THEME.FONTS.regular,
+  },
+  labelError: {
+    color: '#F06292',
+  },
+  inputError: {
+    backgroundColor: '#F8BBD0',
+  },
+  errorInfo: {
+    fontSize: 9,
+    padding: 0,
+    margin: 0,
+    color: '#F06292',
   },
   inputMultiline: {
     textAlignVertical: 'top',
