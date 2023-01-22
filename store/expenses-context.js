@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const ExpensesContext = createContext({
   expenses: [],
+  setExpenses: (expenses) => {},
   addExpense: ({description, amount, date}) => {},
   removeExpense: (id) => {},
   updateExpense: (id, {description, amount, date}) => {},
@@ -11,8 +12,10 @@ export const ExpensesContext = createContext({
 
 function expenseReducer(state, action) {
   switch (action.type) {
+    case 'SET':
+      return action.payload;
     case 'ADD':
-      return [{...action.payload, id: uuidv4()}, ...state];
+      return [action.payload, ...state];
     case 'UPDATE':
       const updatedExpenses = [ ...state ];
       const index = updatedExpenses.findIndex(item => item.id === action.payload.id);
@@ -26,18 +29,11 @@ function expenseReducer(state, action) {
 }
 
 export default function ExpensesContextProvider({ children }) {
-  const [expenses, dispatch] = useReducer(expenseReducer, [{
-    id: '1',
-    description: 'a pair of shoes',
-    amount: 52.87,
-    date: new Date('2023-01-05'),
-  },
-  {
-    id: '2',
-    description: '"The Litle Prince" book',
-    amount: 2.50,
-    date: new Date('2022-11-22'),
-  }]);
+  const [expenses, dispatch] = useReducer(expenseReducer, []);
+
+  function setExpenses(expenses) {
+    dispatch({type: 'SET', payload: expenses});
+  }
 
   function addExpense(expense) {
     dispatch({type: 'ADD', payload: expense});
@@ -53,6 +49,7 @@ export default function ExpensesContextProvider({ children }) {
 
   const value = {
     expenses,
+    setExpenses,
     addExpense,
     removeExpense,
     updateExpense,

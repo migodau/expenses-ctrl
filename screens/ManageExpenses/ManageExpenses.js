@@ -1,33 +1,54 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { ErrorOverlay } from '../../components/UI/ErrorOverlay';
 import { IconButton } from '../../components/UI/IconButton';
+import { Loading } from '../../components/UI/Loading';
 import { ExpensesContext } from '../../store/expenses-context';
 import { THEME } from '../../theme';
+import { storeExpense, modifyExpense, deleteExpense } from '../../util/http';
 import { ExpenseForm } from './ExpenseForm';
 
 export function ManageExpenses({ route, navigation }) {
   const {expenses, addExpense, removeExpense, updateExpense} = useContext(ExpensesContext);
   const expenseId = route.params?.id;
   const isEditing = !!expenseId;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const expense = isEditing ? expenses.find(item => item.id === expenseId) : null
 
-  const handleConfirm = (expenseData) => {
-    if (isEditing) {
-      updateExpense(expenseId, expenseData);
-    } else {
-      addExpense(expenseData);
+  const handleConfirm = async (expenseData) => {
+    setLoading(true);
+    try {
+      if (isEditing) {
+        await modifyExpense(expenseId, expenseData);
+        updateExpense(expenseId, expenseData);
+      } else {
+        const id = await storeExpense(expenseData);
+        addExpense({ ...expenseData, id });
+      }
+      navigation.goBack();
+    } catch {
+      setLoading(false);
+      setError('Could not save data');
     }
-    navigation.goBack();
   }
 
   const handleCancel = () => {
     navigation.goBack();
   }
 
-  const handleDeleteExpense = () => {
-    removeExpense(expenseId);
-    navigation.goBack();
+  const handleDeleteExpense = async () => {
+    setLoading(true);
+    try {
+      removeExpense(expenseId);
+      await deleteExpense(expenseId);
+      navigation.goBack();
+    } catch {
+      setLoading(false);
+      setError('Could not delete the expense.');
+    }
+    
   }
 
   useLayoutEffect(() => {
@@ -35,6 +56,14 @@ export function ManageExpenses({ route, navigation }) {
       title: isEditing ? 'Edit Expense' : 'Add Expense'
     })
   }, [navigation, isEditing]);
+
+  if (loading) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <ErrorOverlay message={error} />
+  }
 
   return (
     <View style={styles.container}>
