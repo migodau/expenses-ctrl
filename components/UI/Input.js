@@ -30,16 +30,16 @@ export const styles = StyleSheet.create({
     fontFamily: THEME.FONTS.regular,
   },
   labelError: {
-    color: '#F06292',
+    color: THEME.COLORS.danger500,
   },
   inputError: {
-    backgroundColor: '#F8BBD0',
+    backgroundColor: THEME.COLORS.danger100,
   },
   errorInfo: {
     fontSize: 9,
     padding: 0,
     margin: 0,
-    color: '#F06292',
+    color: THEME.COLORS.danger500,
   },
   inputMultiline: {
     textAlignVertical: 'top',

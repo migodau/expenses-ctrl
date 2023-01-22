@@ -34,7 +34,7 @@ const ExpensesOverview = () => {
     },
     tabBarActiveTintColor: THEME.COLORS.accent500,
     tabBarInactiveTintColor: THEME.COLORS.primary100,
-    tabBarShowLabel: false,
+    tabBarShowLabel: true,
     headerRight: ({tintColor}) => (
       <IconButton 
         name="add" size={24} color={tintColor} 
@@ -47,6 +47,7 @@ const ExpensesOverview = () => {
       component={RecentExpenses} 
       options={{
         title: 'Recent Expenses',
+        tabBarLabel: 'Recent',
         tabBarIcon: ({color, size}) => <Ionicons name="time-outline" size={size} color={color} />
       }}
     />
@@ -55,6 +56,8 @@ const ExpensesOverview = () => {
       component={AllExpenses} 
       options={{
         title: 'All Expenses',
+        tabBarLabel: 'All',
+        // tabBarBadge: 3,
         tabBarIcon: ({color, size}) => <Ionicons name="ios-list-outline" size={size} color={color} />
       }}
     />

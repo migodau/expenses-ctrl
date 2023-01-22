@@ -1,7 +1,6 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { IconButton } from '../../components/UI/IconButton';
-import { Input } from '../../components/UI/AppTextInput';
 import { ExpensesContext } from '../../store/expenses-context';
 import { THEME } from '../../theme';
 import { ExpenseForm } from './ExpenseForm';
@@ -48,7 +47,7 @@ export function ManageExpenses({ route, navigation }) {
       
       {isEditing && (
         <View style={styles.deleteContainer}>
-          <IconButton name="trash" size={24} color={THEME.COLORS.primaryA200} onPress={handleDeleteExpense} />
+          <IconButton name="trash" size={24} color={THEME.COLORS.danger500} onPress={handleDeleteExpense} />
         </View>
       )}
     </View>

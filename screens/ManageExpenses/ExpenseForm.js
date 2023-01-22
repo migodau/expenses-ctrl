@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { AppText } from '../../components/UI/AppText';
-import { Input } from '../../components/UI/AppTextInput';
+import { Input } from '../../components/UI/Input';
 import { THEME } from '../../theme';
 import { Button } from '../../components/UI/Button';
 import { formatDate } from '../../util/date';
 
 export function ExpenseForm({ submitButtonLabel, defaultValues, onCancel, onSubmit }) {
-  const [formError, setFormError] = useState('');
-
   const [formInputs, setFormInputs] = useState({
     amount: { 
       value: defaultValues?.amount.toString() || '',
@@ -72,6 +70,7 @@ export function ExpenseForm({ submitButtonLabel, defaultValues, onCancel, onSubm
           error={formInputs.date.error}
           value={formInputs.date.value}
           placeholder="YYYY-MM-DD"
+          keyboardType='decimal-pad'
           maxLength={10}
           onChangeText={handleInputChange.bind(this,'date')} 
         />

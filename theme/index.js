@@ -20,6 +20,9 @@ export const THEME = {
     accent900: '#005a53',
 
     gray100: '#f5f5f5',
+
+    danger100: '#F8BBD0',
+    danger500: '#F06292',
   },
 
   FONTS: {
